@@ -1,0 +1,216 @@
+﻿#第1題
+mysql> select curdate() "系統日期";
++--------------+
+| 系統日期     |
++--------------+
+| 2016-05-01   |
++--------------+
+1 row in set (0.05 sec)
+
+#第2題
+mysql> select empno, ename, sal, truncate(sal * 1.15, 0) "New Salary" from emp;
++-------+--------+---------+------------+
+| empno | ename  | sal     | New Salary |
++-------+--------+---------+------------+
+|  7369 | SMITH  |  800.00 |        920 |
+|  7499 | ALLEN  | 1600.00 |       1840 |
+|  7521 | WARD   | 1250.00 |       1437 |
+|  7566 | JONES  | 2975.00 |       3421 |
+|  7654 | MARTIN | 1250.00 |       1437 |
+|  7698 | BLAKE  | 2850.00 |       3277 |
+|  7782 | CLARK  | 2450.00 |       2817 |
+|  7788 | SCOTT  | 3000.00 |       3450 |
+|  7839 | KING   | 5000.00 |       5750 |
+|  7844 | TURNER | 1500.00 |       1725 |
+|  7876 | ADAMS  | 1100.00 |       1265 |
+|  7900 | JAMES  |  950.00 |       1092 |
+|  7902 | FORD   | 3000.00 |       3450 |
+|  7934 | MILLER | 1300.00 |       1495 |
++-------+--------+---------+------------+
+14 rows in set (0.05 sec)
+
+#第3題
+mysql> select empno, ename, sal, truncate(sal * 1.15, 0) "New Salary" 
+    -> , truncate(sal * 1.15, 0) - sal "Increase" from emp;
++-------+--------+---------+------------+----------+
+| empno | ename  | sal     | New Salary | Increase |
++-------+--------+---------+------------+----------+
+|  7369 | SMITH  |  800.00 |        920 |   120.00 |
+|  7499 | ALLEN  | 1600.00 |       1840 |   240.00 |
+|  7521 | WARD   | 1250.00 |       1437 |   187.00 |
+|  7566 | JONES  | 2975.00 |       3421 |   446.00 |
+|  7654 | MARTIN | 1250.00 |       1437 |   187.00 |
+|  7698 | BLAKE  | 2850.00 |       3277 |   427.00 |
+|  7782 | CLARK  | 2450.00 |       2817 |   367.00 |
+|  7788 | SCOTT  | 3000.00 |       3450 |   450.00 |
+|  7839 | KING   | 5000.00 |       5750 |   750.00 |
+|  7844 | TURNER | 1500.00 |       1725 |   225.00 |
+|  7876 | ADAMS  | 1100.00 |       1265 |   165.00 |
+|  7900 | JAMES  |  950.00 |       1092 |   142.00 |
+|  7902 | FORD   | 3000.00 |       3450 |   450.00 |
+|  7934 | MILLER | 1300.00 |       1495 |   195.00 |
++-------+--------+---------+------------+----------+
+14 rows in set (0.00 sec)
+
+#第4題
+mysql> select ename, hiredate, adddate(hiredate, interval 6 month) from emp;
++--------+---------------------+-------------------------------------+
+| ename  | hiredate            | adddate(hiredate, interval 6 month) |
++--------+---------------------+-------------------------------------+
+| SMITH  | 1980-12-17 00:00:00 | 1981-06-17 00:00:00                 |
+| ALLEN  | 1981-02-20 00:00:00 | 1981-08-20 00:00:00                 |
+| WARD   | 1981-02-22 00:00:00 | 1981-08-22 00:00:00                 |
+| JONES  | 1981-04-02 00:00:00 | 1981-10-02 00:00:00                 |
+| MARTIN | 1981-09-28 00:00:00 | 1982-03-28 00:00:00                 |
+| BLAKE  | 1981-05-01 00:00:00 | 1981-11-01 00:00:00                 |
+| CLARK  | 1981-06-09 00:00:00 | 1981-12-09 00:00:00                 |
+| SCOTT  | 1982-12-09 00:00:00 | 1983-06-09 00:00:00                 |
+| KING   | 1981-11-17 00:00:00 | 1982-05-17 00:00:00                 |
+| TURNER | 1981-09-08 00:00:00 | 1982-03-08 00:00:00                 |
+| ADAMS  | 1983-01-12 00:00:00 | 1983-07-12 00:00:00                 |
+| JAMES  | 1981-12-03 00:00:00 | 1982-06-03 00:00:00                 |
+| FORD   | 1981-12-03 00:00:00 | 1982-06-03 00:00:00                 |
+| MILLER | 1982-01-23 00:00:00 | 1982-07-23 00:00:00                 |
++--------+---------------------+-------------------------------------+
+14 rows in set (0.03 sec)
+
+#第5題
+mysql> notee
+mysql> select ename, period_diff(date_format(curdate(),'%Y%m'),date_format(hiredate,'%Y%m')) "MONTHES_WORKED" from emp;
++--------+----------------+
+| ename  | MONTHES_WORKED |
++--------+----------------+
+| SMITH  |            425 |
+| ALLEN  |            423 |
+| WARD   |            423 |
+| JONES  |            421 |
+| MARTIN |            416 |
+| BLAKE  |            420 |
+| CLARK  |            419 |
+| SCOTT  |            401 |
+| KING   |            414 |
+| TURNER |            416 |
+| ADAMS  |            400 |
+| JAMES  |            413 |
+| FORD   |            413 |
+| MILLER |            412 |
++--------+----------------+
+14 rows in set (0.00 sec)
+
+#第6題
+mysql> select concat(ename, ' earns ', sal, 'monthly but wants ', 3*sal) "Dream Salaries" from emp;
++-----------------------------------------------+
+| Dream Salaries                                |
++-----------------------------------------------+
+| SMITH earns 800.00monthly but wants 2400.00   |
+| ALLEN earns 1600.00monthly but wants 4800.00  |
+| WARD earns 1250.00monthly but wants 3750.00   |
+| JONES earns 2975.00monthly but wants 8925.00  |
+| MARTIN earns 1250.00monthly but wants 3750.00 |
+| BLAKE earns 2850.00monthly but wants 8550.00  |
+| CLARK earns 2450.00monthly but wants 7350.00  |
+| SCOTT earns 3000.00monthly but wants 9000.00  |
+| KING earns 5000.00monthly but wants 15000.00  |
+| TURNER earns 1500.00monthly but wants 4500.00 |
+| ADAMS earns 1100.00monthly but wants 3300.00  |
+| JAMES earns 950.00monthly but wants 2850.00   |
+| FORD earns 3000.00monthly but wants 9000.00   |
+| MILLER earns 1300.00monthly but wants 3900.00 |
++-----------------------------------------------+
+14 rows in set (0.00 sec)
+
+#第7題
+mysql> select ename , lpad(sale,15,'$') SALARY from emp;
+ERROR 1054 (42S22): Unknown column 'sale' in 'field list'
+mysql> select ename , lpad(sal,15,'$') SALARY from emp;
++--------+-----------------+
+| ename  | SALARY          |
++--------+-----------------+
+| SMITH  | $$$$$$$$$800.00 |
+| ALLEN  | $$$$$$$$1600.00 |
+| WARD   | $$$$$$$$1250.00 |
+| JONES  | $$$$$$$$2975.00 |
+| MARTIN | $$$$$$$$1250.00 |
+| BLAKE  | $$$$$$$$2850.00 |
+| CLARK  | $$$$$$$$2450.00 |
+| SCOTT  | $$$$$$$$3000.00 |
+| KING   | $$$$$$$$5000.00 |
+| TURNER | $$$$$$$$1500.00 |
+| ADAMS  | $$$$$$$$1100.00 |
+| JAMES  | $$$$$$$$$950.00 |
+| FORD   | $$$$$$$$3000.00 |
+| MILLER | $$$$$$$$1300.00 |
++--------+-----------------+
+14 rows in set (0.00 sec)
+
+#第8題
+mysql> select ename, hiredate, dayname(hiredate) DAY
+    -> from emp
+    -> order by weekday(hiredate);
++--------+---------------------+-----------+
+| ename  | hiredate            | DAY       |
++--------+---------------------+-----------+
+| MARTIN | 1981-09-28 00:00:00 | Monday    |
+| CLARK  | 1981-06-09 00:00:00 | Tuesday   |
+| KING   | 1981-11-17 00:00:00 | Tuesday   |
+| TURNER | 1981-09-08 00:00:00 | Tuesday   |
+| SMITH  | 1980-12-17 00:00:00 | Wednesday |
+| ADAMS  | 1983-01-12 00:00:00 | Wednesday |
+| JONES  | 1981-04-02 00:00:00 | Thursday  |
+| SCOTT  | 1982-12-09 00:00:00 | Thursday  |
+| JAMES  | 1981-12-03 00:00:00 | Thursday  |
+| FORD   | 1981-12-03 00:00:00 | Thursday  |
+| ALLEN  | 1981-02-20 00:00:00 | Friday    |
+| BLAKE  | 1981-05-01 00:00:00 | Friday    |
+| MILLER | 1982-01-23 00:00:00 | Saturday  |
+| WARD   | 1981-02-22 00:00:00 | Sunday    |
++--------+---------------------+-----------+
+14 rows in set (0.00 sec)
+
+#第9題
+mysql> select ename, ifnull(comm, 'No Commision') COMM from emp;
++--------+--------------+
+| ename  | COMM         |
++--------+--------------+
+| SMITH  | No Commision |
+| ALLEN  | 300.00       |
+| WARD   | 500.00       |
+| JONES  | No Commision |
+| MARTIN | 1400.00      |
+| BLAKE  | No Commision |
+| CLARK  | No Commision |
+| SCOTT  | No Commision |
+| KING   | No Commision |
+| TURNER | 0.00         |
+| ADAMS  | No Commision |
+| JAMES  | No Commision |
+| FORD   | No Commision |
+| MILLER | No Commision |
++--------+--------------+
+14 rows in set (0.00 sec)
+
+#第10題
+mysql> select concat( rpad(ename,10,' '), repeat('*',round(sal/100.0)))
+    ->  "EOMPLOYEE_AND_THEIR_SALARIES" from emp
+    -> order by sal desc;
++--------------------------------------------------------------+
+| EOMPLOYEE_AND_THEIR_SALARIES                                 |
++--------------------------------------------------------------+
+| KING      ************************************************** |
+| SCOTT     ******************************                     |
+| FORD      ******************************                     |
+| JONES     ******************************                     |
+| BLAKE     *****************************                      |
+| CLARK     *************************                          |
+| ALLEN     ****************                                   |
+| TURNER    ***************                                    |
+| MILLER    *************                                      |
+| WARD      *************                                      |
+| MARTIN    *************                                      |
+| ADAMS     ***********                                        |
+| JAMES     **********                                         |
+| SMITH     ********                                           |
++--------------------------------------------------------------+
+14 rows in set (0.00 sec)
+
+mysql> notee
