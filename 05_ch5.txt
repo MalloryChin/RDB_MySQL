@@ -53,26 +53,32 @@ mysql> select empno, ename, sal, truncate(sal * 1.15, 0) "New Salary"
 14 rows in set (0.00 sec)
 
 #第4題
-mysql> select ename, hiredate, adddate(hiredate, interval 6 month) from emp;
-+--------+---------------------+-------------------------------------+
-| ename  | hiredate            | adddate(hiredate, interval 6 month) |
-+--------+---------------------+-------------------------------------+
-| SMITH  | 1980-12-17 00:00:00 | 1981-06-17 00:00:00                 |
-| ALLEN  | 1981-02-20 00:00:00 | 1981-08-20 00:00:00                 |
-| WARD   | 1981-02-22 00:00:00 | 1981-08-22 00:00:00                 |
-| JONES  | 1981-04-02 00:00:00 | 1981-10-02 00:00:00                 |
-| MARTIN | 1981-09-28 00:00:00 | 1982-03-28 00:00:00                 |
-| BLAKE  | 1981-05-01 00:00:00 | 1981-11-01 00:00:00                 |
-| CLARK  | 1981-06-09 00:00:00 | 1981-12-09 00:00:00                 |
-| SCOTT  | 1982-12-09 00:00:00 | 1983-06-09 00:00:00                 |
-| KING   | 1981-11-17 00:00:00 | 1982-05-17 00:00:00                 |
-| TURNER | 1981-09-08 00:00:00 | 1982-03-08 00:00:00                 |
-| ADAMS  | 1983-01-12 00:00:00 | 1983-07-12 00:00:00                 |
-| JAMES  | 1981-12-03 00:00:00 | 1982-06-03 00:00:00                 |
-| FORD   | 1981-12-03 00:00:00 | 1982-06-03 00:00:00                 |
-| MILLER | 1982-01-23 00:00:00 | 1982-07-23 00:00:00                 |
-+--------+---------------------+-------------------------------------+
-14 rows in set (0.03 sec)
+mysql> select ename, cast(hiredate as date) hiredate,
+    -> date_format(
+    ->             if( weekday(adddate(hiredate, interval 6 month))=0,
+    ->                 adddate(hiredate, interval 6 month),
+    ->                 adddate( adddate(hiredate, interval 6 month), interval 7-weekday(adddate(hiredate, interval 6 month)) day) )
+    ->             ,'%W, the %D of %M') "REVIEW"
+    -> from emp;
++--------+------------+------------------------------+
+| ename  | hiredate   | REVIEW                       |
++--------+------------+------------------------------+
+| SMITH  | 1980-12-17 | Monday, the 22nd of June     |
+| ALLEN  | 1981-02-20 | Monday, the 24th of August   |
+| WARD   | 1981-02-22 | Monday, the 24th of August   |
+| JONES  | 1981-04-02 | Monday, the 5th of October   |
+| MARTIN | 1981-09-28 | Monday, the 29th of March    |
+| BLAKE  | 1981-05-01 | Monday, the 2nd of November  |
+| CLARK  | 1981-06-09 | Monday, the 14th of December |
+| SCOTT  | 1982-12-09 | Monday, the 13th of June     |
+| KING   | 1981-11-17 | Monday, the 17th of May      |
+| TURNER | 1981-09-08 | Monday, the 8th of March     |
+| ADAMS  | 1983-01-12 | Monday, the 18th of July     |
+| JAMES  | 1981-12-03 | Monday, the 7th of June      |
+| FORD   | 1981-12-03 | Monday, the 7th of June      |
+| MILLER | 1982-01-23 | Monday, the 26th of July     |
++--------+------------+------------------------------+
+14 rows in set (0.00 sec)
 
 #第5題
 mysql> notee
@@ -168,6 +174,29 @@ mysql> select ename, hiredate, dayname(hiredate) DAY
 14 rows in set (0.00 sec)
 
 #第9題
+mysql> select ename, if(comm>0, comm, 'No Commision') COMM from emp;
++--------+--------------+
+| ename  | COMM         |
++--------+--------------+
+| SMITH  | No Commision |
+| ALLEN  | 300.00       |
+| WARD   | 500.00       |
+| JONES  | No Commision |
+| MARTIN | 1400.00      |
+| BLAKE  | No Commision |
+| CLARK  | No Commision |
+| SCOTT  | No Commision |
+| KING   | No Commision |
+| TURNER | No Commision |
+| ADAMS  | No Commision |
+| JAMES  | No Commision |
+| FORD   | No Commision |
+| MILLER | No Commision |
++--------+--------------+
+
+14 rows in set (0.00 sec)
+
+#若以下寫法會漏掉comm為0的狀況
 mysql> select ename, ifnull(comm, 'No Commision') COMM from emp;
 +--------+--------------+
 | ename  | COMM         |
