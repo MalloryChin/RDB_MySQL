@@ -1,0 +1,22 @@
+#1
+insert into my_emp
+values(1, 'Patel', 'Ralph', 'rpatel', 795);
+
+#2
+insert into my_emp(id, last_name, first_name, userid, salary)
+values(2, 'Dancs', 'Betty', 'bdancs', 860);
+
+#3
+insert into my_emp values(3, 'Biri', 'Ben', 'bbiri', 1100);
+insert into my_emp values(4, 'Newman', 'Chad', 'cnewman', 750);
+
+#4
+
+#5
+
+#6
+
+#7
+
+#8
+
