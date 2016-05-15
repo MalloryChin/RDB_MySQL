@@ -1,0 +1,91 @@
+#1
+select ename, hiredate
+from emp
+where deptno = (select deptno
+		from emp
+		where ename = 'Blake');
+#2
+select ename, hiredate
+from emp
+where hiredate > (select hiredate
+		from emp
+		where ename = 'Blake');
+#3
+select empno, ename, sal
+from emp
+where sal > (select avg(sal)
+	     from emp)
+order by sal desc;
+#4
+select empno, ename
+from emp
+where deptno in (select distinct deptno
+		from emp
+		where ename like '%T%');
+#5
+select ename, deptno, job
+from emp
+where deptno = (select deptno
+                from dept
+                where loc='Dallas');
+
+#6
+select e.ename, e.sal
+from emp e join emp m on e.mgr = m.empno
+where m.ename = 'King';
+
+select ename, sal
+from emp
+where mgr = (select empno
+               from emp
+               where ename = 'King');
+
+#7
+select d.deptno, ename, job
+from emp e join dept d on e.deptno = d.deptno
+where dname = 'Sales';
+
+select deptno, ename, job
+from emp
+where deptno = (select deptno
+                from dept
+                where dname = 'Sales');
+
+#8
+select empno, ename, sal
+from emp
+where sal > (select avg(sal) from emp)
+      and
+      deptno in (select distinct deptno
+	     from emp
+	     where ename like '%T%');
+#9
+select ename, empno, sal
+from emp 
+where (deptno, sal) in (select deptno, sal
+                        from emp
+                        where comm > 0);
+#10
+select ename, deptno, sal
+from emp
+where (sal, ifnull(comm, 0)) in (select sal, ifnull(comm, 0)
+                      from emp
+                      where deptno = (select deptno
+                                      from dept
+                                      where loc = 'Dallas'));
+
+#11
+select ename, hiredate, sal
+from emp
+where (sal, ifnull(comm, 0)) = (select sal, ifnull(comm, 0)
+                                from emp
+                                where ename = 'Scott')
+      and ename != 'Scott';
+
+#12
+select ename, hiredate, sal
+from emp
+where sal > (select max(sal)
+             from emp
+             where job = 'Clerk')
+order by sal desc;
