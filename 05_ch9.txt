@@ -28,3 +28,11 @@ delete from my_emp
 where last_name = 'Dancs' and first_name = 'Betty';
 
 #8
+start transaction;
+update my_emp set salary = salary * 1.1;
+savepoint T1;
+delete from my_emp;
+select * from my_emp;
+rollback to T1;
+commit;
+ 
